@@ -14,7 +14,7 @@ checks:
 automations:
   mark_good_pr:
     if:
-      - {{ checks.size.is.xsmall or checks.size.is.small or checks.size.is.medium }}
+      - {{ checks.size.is.small }}
     run:
       - action: add-labels@v1
         args:

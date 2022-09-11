@@ -1,5 +1,4 @@
-const formats = {
-  emby: `{url}/emby/{endpoint}?api_key={key}`,
+const formats = {emby: `{url}/emby/{endpoint}?api_key={key}`,
   jellyfin: `{url}/emby/{endpoint}?api_key={key}`,
   pihole: `{url}/admin/{endpoint}`,
   radarr: `{url}/api/v3/{endpoint}?apikey={key}`,
@@ -14,22 +13,16 @@ const formats = {
   npm: `{url}/api/{endpoint}`,
 };
 
-export function formatApiCall(api, args) {
-  const find = /\{.*?\}/g;
+export function formatApiCall(api, args) {const find = /\{.*?\}/g;
   const replace = (match) => {
-    const key = match.replace(/\{|\}/g, "");
+    const key = match.replace(/\{|\}/g, "")
     return args[key];
-  };
-
-  return formats[api].replace(find, replace);
+  };return formats[api].replace(find, replace);
 }
 
 export function formatApiUrl(widget, endpoint) {
   const params = new URLSearchParams({
-    type: widget.type,
-    group: widget.service_group,
-    service: widget.service_name,
-    endpoint,
+    type: widget.type,group: widget.service_group,service: widget.service_name,endpoint,
   });
   return `/api/services/proxy?${params.toString()}`;
 }

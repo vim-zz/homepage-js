@@ -14,19 +14,6 @@ checks:
     are:
       docs: {{ files | allDocs }}
       images: {{ files | allImages }}
-  size:
-    is:
-      xsmall: {{ branch.diff.size <= 5 }}
-      small: {{ branch.diff.size > 5 and branch.diff.size <= 20 }}
-      medium: {{ branch.diff.size > 20 and branch.diff.size <= 100 }}
-      large: {{ branch.diff.size > 100 and branch.diff.size <= 200 }}
-      xlarge: {{ branch.diff.size > 200 }}
-  change:
-    is:
-      formatting_only: {{ source.diff.files | allFormattingChange }}
-      
-#  review:
-#    etr: {{ branch | estimatedReviewTime }}
 
 # The `automations` section include the list of automation that applies 
 # for the repo in which gitStream is installed. 
@@ -41,35 +28,3 @@ automations:
       - action: add-labels@v1
         args:
           labels: [good_size]
-#          color: green
-  mark_big_pr:
-    if:
-      - {{ checks.size.is.large or checks.size.is.xlarge }}
-    run:
-      - action: add-labels@v1
-        args:
-          labels: [big_size]
-#          color: red
-  approve_non_code:
-    if:
-      - {{ checks.filetypes.is.docs or checks.filetypes.is.images }}
-    run:
-      - action: approve@v1
-      - action : add-labels@v1
-        args:
-          labels: ['non-code']
-#  approve_reformatting:
-#    if:
-#      - {{ checks.change.is.formatting_only }}
-#    run: 
-#      - action : approve@v1
-#      - action : add-labels@v1
-#        args:
-#          labels: ['formatting']
-#  add_context_for_large_pr:
-#    if:
-#      - {{ checks.size.is.large or checks.size.is.xlarge }}
-#    run: 
-#      - action : add-comment@v1
-#        args:
-#          comment: Estimated {{ checks.review.etr }} minutes to review
